@@ -6,7 +6,7 @@ from django.contrib import messages
 from dbms.view.pageholder import pageBuilder
 
 def teacher(request):#个人信息
-    return render(request,'teacher.html')
+    return render(request, 'templates/manager.html')
 
 def indexTeacher(request):#查询教师个人信息
     print("查询教师自己的信息")
