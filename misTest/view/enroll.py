@@ -66,7 +66,7 @@ def login(request):
                 return obj
 
         else:  # 管理员登录的情况
-            cursor.execute("select * from admininfo where Admin_id=%s and password=md5(%s)", [userid, password])
+            cursor.execute("select * from admininfo where Admin_id=%s and password=%s", [userid, password])
             result = cursor.fetchall()
             connection.close()
             if len(result) == 0:

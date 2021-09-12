@@ -4,7 +4,7 @@
 # @File : urls.py
 # @Software : PyCharm
 from django.urls import path
-from misTest.view import enroll, stat, employee,manager
+from misTest.view import enroll, stat, employee,manager,admin
 
 urlpatterns = [
     path('welcome/', enroll.welcome),
@@ -20,5 +20,12 @@ urlpatterns = [
     path('changeCredit', manager.changeCredit),
     path('indexManager/', manager.indexManager),
     path('indexMDistSelect', stat.indexMDistSelect),
-    path('indexMDistShow', stat.indexMDistShow)
+    path('indexMDistShow', stat.indexMDistShow),
+    path('admin/', admin.admin),
+    path('indexAdmin', admin.indexAdmin),
+    path('indexAllEm', admin.indexAllEm),
+    path('indexAllM', admin.indexAllM),
+    path('indexAllT', admin.indexAllT),
+    path('changeAllEm', admin.changeAllEm),
+    path('changeAllM', admin.changeAllM)
 ]
