@@ -3,7 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>学生成绩分布</title>
+    <title>员工绩效分布</title>
      <style>
       body{
        margin:0px;
@@ -191,12 +191,12 @@
 <body>
     <div class="header">
       <h1>
-          您好，欢迎使用学生成绩管理系统
+          您好，欢迎使用企业数据管理系统
       </h1>
     </div>
     <div class="footer">
       <h1>
-          学生成绩管理系统（教师登录）
+          企业数据管理系统（经理登录）
       </h1>
     </div>
       <div class="selectbar">
@@ -210,13 +210,13 @@
     </div>
      <div class="selectbox">
          <div class="mainblock">
-         <h2>请选择需要查询的课程</h2>
+         <h2>请选择需要查询的绩效</h2>
          <form name="my_form" action="/pro/indexTDistShow" method="post">
              {% csrf_token %}
              <div class="selectbox">
                <select name="my_select">
                    {% for temp in data%}
-                   <option value = {{temp.course_id}}>{{temp.course_name}}</option>
+                   <option value = {{temp.Task_id}}>{{temp.Task_id}}</option>
                    {% endfor %}
                </select>
              </div>

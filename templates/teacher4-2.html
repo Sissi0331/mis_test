@@ -3,7 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>学生成绩分布</title>
+    <title>员工绩效分布</title>
      <style>
       body{
        margin:0px;
@@ -247,13 +247,13 @@
 
      <div class="selectbox">
          <div class="mainblock">
-         <h2>请选择需要查询的课程</h2>
+         <h2>请选择需要查询的任务</h2>
          <form name="my_form" action="/pro/indexTDistShow" method="post">
              {% csrf_token %}
              <div class="selectbox">
                <select name="my_select">
-                   {% for temp in courseinfo%}
-                   <option value = {{temp.course_id}}>{{temp.course_name}}</option>
+                   {% for temp in taskinfo%}
+                   <option value = {{temp.task_id}}>{{temp.task_id}}</option>
                    {% endfor %}
                </select>
              </div>
@@ -264,7 +264,7 @@
      </div>
      </div>
       <h3>
-          课程成绩分布情况——{{course_name}}
+          项目绩效分布情况——{{task_name}}
       </h3>
     <div class="background">
     </div>

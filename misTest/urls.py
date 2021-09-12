@@ -18,5 +18,7 @@ urlpatterns = [
     path('indexMTask/', manager.indexMTask),
     path('indexMCredit/', manager.indexMCredit),
     path('changeCredit', manager.changeCredit),
-    path('indexManager/', manager.indexManager)
+    path('indexManager/', manager.indexManager),
+    path('indexTDistSelect', stat.indexTDistSelect),
+    path('indexTDistShow', stat.indexTDistShow)
 ]
