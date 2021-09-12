@@ -1,26 +1,26 @@
-#教师子系统
+#经理子系统
 from django.shortcuts import render,redirect
 from django.db import connection
 from django.http import HttpResponse
 from django.contrib import messages
-from dbms.view.pageholder import pageBuilder
+from misTest.view.pageholder import pageBuilder
 
-def teacher(request):#个人信息
+def manager(request):#个人信息
     return render(request, 'templates/manager.html')
 
-def indexTeacher(request):#查询教师个人信息
+def indexTeacher(request):#查询经理个人信息
     print("查询教师自己的信息")
-    if 'sessionid' in request.COOKIES and request.session['role'] == 'teacher': 
-        teacher_id = request.session['id']
-        connection.connect()  
+    if 'sessionid' in request.COOKIES and request.session['role'] == 'manager':
+        manager_id = request.session['id']
+        connection.connect()
         cursor = connection.cursor()
-        cursor.execute("select * from teacher where teacher_id='%s'" % (teacher_id))
+        cursor.execute("select * from managerinfo where Manager_id='%s'" % manager_id)
         result = cursor.fetchall()
         connection.close()
         result_list = []
         for r in result:
-            result_list.append({"teacher_id":r[0],'teacher_name':r[2],'dept':r[3]})
-        return render(request, 'teacher1.html', {"data": result_list})
+            result_list.append({"Manager_id":r[0],'Manager_name':r[2],'Manager_Age':r[3]})
+        return render(request, 'templates/manager1.html', {"data": result_list})
     else:
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
@@ -74,7 +74,7 @@ def ifdigit(num):
             return True
         elif num.count(".")==1:
             return True
-    else: 
+    else:
         return False
 
 
@@ -98,23 +98,23 @@ def changeTGrade(request):#录入、删除、修改所授课程学生成绩信�
             cursor.execute("select * from take \
                             where course_id = '%s' and student_id = '%s'" % (course_id, student_id))
             grades = cursor.fetchall()
-            error_count = 0 
+            error_count = 0
             if len(student) == 0:
                 print("该学生不存在")
                 messages.error(request,"该学生不存在")
                 error_count += 1
             elif len(course) == 0:
                 print("该课程不存在")
-                messages.error(request,"该课程不存在") 
+                messages.error(request,"该课程不存在")
                 error_count += 1
             elif len(grades) ==0 and (error_count == 0):
-                print("该学生没有上此门课程")  
-                messages.error(request,"该学生没有上此门课程") 
-                error_count += 1         
+                print("该学生没有上此门课程")
+                messages.error(request,"该学生没有上此门课程")
+                error_count += 1
             elif (ifdigit(grade) == False) or ((ifdigit(grade) == True) and ((float(grade) < 0) or (float(grade) > 100))):
-                print("请输入0到100之间的数字")    
+                print("请输入0到100之间的数字")
                 messages.error(request,"请输入0到100之间的数字")
-                error_count += 1  
+                error_count += 1
             elif error_count == 0:
                 grade = float(grade)
                 cursor.execute('update take set \

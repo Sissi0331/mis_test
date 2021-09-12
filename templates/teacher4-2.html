@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>学生成绩分布</title>
+     <style>
+      body{
+       margin:0px;
+       padding:0px;
+       font-family:sans-serif;
+       background-size:cover;
+      }
+
+     .header{
+       position:absolute;
+       top:30px;
+       left:760px;
+       width:1560px;
+       padding:10px;
+       transform:translate(-50%,-50%);
+       background: rgba(20,68,106,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+      .header h1{
+       text-align:center;
+       font-size:30px;
+       color:white;
+      }
+
+      .footer{
+       position:absolute;
+       top:680px;
+       left:760px;
+       width:1560px;
+       padding:10px;
+       transform:translate(-50%,-50%);
+       background: rgba(38,188,213,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+      .footer h1{
+       text-align:center;
+       font-size:16px;
+       color:white;
+      }
+
+      .selectbar{
+       position:relative;
+       top:365px;
+       left:105px;
+       width:227px;
+       height:565px;
+       transform:translate(-50%,-50%);
+       background: rgba(0,158,255,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+
+     .selectbar input{
+          background-color: #ff7f00;
+          position:absolute;
+          margin-top:5px;
+          margin-left:14px;
+          color: black;
+          padding: 8px 70px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          border-radius:5px;
+      }
+
+      .tableblock{
+       position:absolute;
+       top:365px;
+       left:880px;
+       width:1320px;
+       height:565px;
+       transform:translate(-50%,-50%);
+       background: rgba(35,235,185,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+
+      h3{
+       position:absolute;
+       top:80px;
+       left:860px;
+      }
+
+      h4{
+       position:absolute;
+       top:70px;
+       left:1160px;
+      }
+
+      .background {
+       display: block;
+       position: fixed;
+       right: 0;
+       bottom: 0;
+       width: auto;
+       height: auto;
+       min-width: 100%;
+       min-height: 100%;
+       z-index: -100;
+       background-image:url({% static 'images/background.jpg' %});
+       background-size: cover;
+      }
+
+      .mainblock{
+     position:absolute;
+     top:365px;
+     left:360px;
+     width:280px;
+     height:565px;
+     transform:translate(-50%,-50%);
+     width:272px;
+     height:560px;
+     padding:50px;
+     background: rgba(12,12,12,.8);
+     box-sizing:border-box;
+     box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+ }
+ .mainblock h2{
+     margin:0 0 30px;
+     padding:0;
+     color: #fff;
+     text-align:center;
+     font-size:15px
+ }
+ .mainblock .inputbox{
+     position:relative;
+ }
+ .mainblock .inputbox input{
+     width: 100%;
+     padding:10px 0;
+     font-size:16px;
+     color:#fff;
+     letter-spacing: 1px;
+     margin-bottom: 30px;
+     border:none;
+     border-bottom: 1px solid #fff;
+     outline:none;
+     background: transparent;
+ }
+ .mainblock .inputbox label{
+     position:absolute;
+     top:0px;
+     left:0px;
+     padding:10px 0;
+     font-size: 16px;
+     color:#fff;
+     pointer-events:none;
+     transition:.5s;
+ }
+ .mainblock .inputbox input:focus ~ label,
+ .mainblock .inputbox input:valid ~ label
+ {
+     top:-18px;
+     left:0;
+     color:#03a9f4;
+     font-size:14px;
+ }
+
+ .mainblock .selectbox select
+ {
+     width: 200px;
+     position:absolute;
+     top:100px;
+     left:36px;
+     padding:10px 0;
+     font-size:16px;
+     color:#03a9f4;
+     margin-bottom: 100px;
+     background: transparent;
+ }
+
+ .mainblock .submit input
+ {
+     width:160px;
+     height:40px;
+     position:absolute;
+     top:200px;
+     left:50px;
+     font-size:15px;
+     border:none;
+     outline:none;
+     color:#fff;
+     background:red;
+     padding:15px 20px;
+     cursor: pointer;
+     border-radius:30px;
+ }
+
+ .picblock1{
+       position:absolute;
+       top:385px;
+       left:760px;
+       width:490px;
+       height:490px;
+       transform:translate(-50%,-50%);
+       background: rgba(35,185,235,.8);;
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+       background-image:url({% static bar %});
+      }
+
+ .picblock2{
+       position:absolute;
+       top:385px;
+       left:1270px;
+       width:490px;
+       height:490px;
+       transform:translate(-50%,-50%);
+       background: rgba(35,185,235,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+       background-image:url({% static pie %});
+  }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+    <div class="header">
+      <h1>
+          您好，欢迎使用学生成绩管理系统
+      </h1>
+    </div>
+    <div class="footer">
+      <h1>
+          学生成绩管理系统（教师登录）
+      </h1>
+    </div>
+      <div class="selectbar">
+          <input type="button" name="stu_info" value="个人信息" onclick="location.href='/pro/indexTeacher'"style="margin-top:5px"><br><br><br><br>
+          <input type="button" name="stu_course" value="所授课程" onclick="location.href='/pro/indexTCourse'"style="margin-top:-25px"><br><br><br><br>
+          <input type="button" name="stu_grade" value="学生成绩" onclick="location.href='/pro/indexTGrade'"style="margin-top:-55px"><br><br><br><br>
+          <input type="button" name="stu_grade" value="成绩分布" onclick="location.href='/pro/indexTDistSelect'"style="margin-top:-85px"><br><br><br><br>
+          <input type="button" name="login_off" value="退出系统" onclick="location.href='/pro/logout'"style="margin-top:-115px"><br><br><br><br>
+    </div>
+    <div class="tableblock">
+    </div>
+
+     <div class="selectbox">
+         <div class="mainblock">
+         <h2>请选择需要查询的课程</h2>
+         <form name="my_form" action="/pro/indexTDistShow" method="post">
+             {% csrf_token %}
+             <div class="selectbox">
+               <select name="my_select">
+                   {% for temp in courseinfo%}
+                   <option value = {{temp.course_id}}>{{temp.course_name}}</option>
+                   {% endfor %}
+               </select>
+             </div>
+             <div class="submit">
+               <input type="submit" name="" value="查询" >
+             </div>
+         </form>
+     </div>
+     </div>
+      <h3>
+          课程成绩分布情况——{{course_name}}
+      </h3>
+    <div class="background">
+    </div>
+    <div class="picblock1">
+    </div>
+    <div class="picblock2">
+    </div>
+</body>
+</html>
