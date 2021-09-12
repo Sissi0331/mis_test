@@ -255,7 +255,7 @@ def ifdigit(num):
         return False
 
 
-def changeAllCourse(request):  # 录入、删除、修改课程信息
+def changeAllT(request):  # 录入、删除、修改课程信息
     page = request.GET.get('page', 1)
     if 'sessionid' in request.COOKIES and request.session['role'] == 'admin':
         teacher_id = request.session['id']

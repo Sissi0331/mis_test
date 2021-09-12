@@ -27,5 +27,6 @@ urlpatterns = [
     path('indexAllM', admin.indexAllM),
     path('indexAllT', admin.indexAllT),
     path('changeAllEm', admin.changeAllEm),
-    path('changeAllM', admin.changeAllM)
+    path('changeAllM', admin.changeAllM),
+    path('changeAllT', admin.changeAllT),
 ]
