@@ -42,7 +42,7 @@ def login(request):
                 #新创建一个session，设置该session的属性
                 request.session['role'] = 'employee' #用户类型
                 request.session['id'] = result[0][0]#用户唯一标识
-                obj = redirect('/pro/employee') #未创建
+                obj = redirect('/pro/employee')
                 return obj
 
         elif usertype == 'manager':#经理登录的情况

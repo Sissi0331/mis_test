@@ -15,4 +15,5 @@ urlpatterns = [
     path('indexECredit', employee.indexECredit),
     path('indexSGPADIST', stat.indexSGPADIST),
     path('employee/', employee.employee)
+    path('manager/', manager.manager)
 ]
