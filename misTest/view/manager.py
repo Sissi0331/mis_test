@@ -8,8 +8,8 @@ from misTest.view.pageholder import pageBuilder
 def manager(request):#个人信息
     return render(request, 'templates/manager.html')
 
-def indexTeacher(request):#查询经理个人信息
-    print("查询教师自己的信息")
+def indexManager(request):#查询经理个人信息
+    print("查询经理自己的信息")
     if 'sessionid' in request.COOKIES and request.session['role'] == 'manager':
         manager_id = request.session['id']
         connection.connect()
