@@ -15,5 +15,6 @@ urlpatterns = [
     path('indexSGPADIST', stat.indexSGPADIST),
     path('employee/', employee.employee),
     path('manager/', manager.manager),
+    path('indexMTask/', manager.indexMTask),
     path('indexManager', manager.indexManager)
 ]

@@ -25,23 +25,23 @@ def indexManager(request):#查询经理个人信息
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
 
-def indexTCourse(request):#查询所授课程信息
-    print("查询教师教授的课程")
+def indexMTask(request):#查询发布项目信息
+    print("查询经理发布的项目")
     page=request.GET.get('page',1)
-    if 'sessionid' in request.COOKIES and request.session['role'] == 'teacher':
-        teacher_id = request.session['id']
+    if 'sessionid' in request.COOKIES and request.session['role'] == 'manager':
+        Manager_id = request.session['id']
         connection.connect()
         cursor = connection.cursor()
-        cursor.execute("select course.course_id,course_name,credits \
-                        from course natural join teach \
-                        where teacher_id='%s' \
-                        order by course.course_id;" % (teacher_id))
+        cursor.execute("select taskinfo.Task_id,taskinfo.Start_time,taskinfo.End_time \
+                        from taskinfo \
+                        where Manager_id='%s' \
+                        order by Start_time;" % Manager_id)
         result = cursor.fetchall()
         connection.close()
         result_list = []
         for r in result:
-            result_list.append({"course_id":r[0],'course_name':r[1],'credits':r[2]})
-        return render(request, 'teacher2.html', pageBuilder(result_list,page))
+            result_list.append({"Manager_id":r[0],'Start_time':r[1],'End_time':r[2]})
+        return render(request, 'manager2.html', pageBuilder(result_list,page))
     else:
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
