@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>选课信息</title>
+     <style>
+      ul.pagination {
+        position:absolute;
+        left:450px;
+        top:608px;
+        display: inline-block;
+        
+        padding: 0;
+        margin: 0;
+      }
+
+      ul.pagination li {display: inline;}
+
+      ul.pagination li a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #1c1c1c;
+      }
+
+      .pagination li:first-child a {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+
+      .pagination li:last-child a {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+
+      ul.pagination li a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+      }
+
+      ul.pagination li a:hover:not(.active) {
+          background-color: #ddd;
+      }
+
+      body{
+       margin:0px;
+       padding:0px;
+       font-family:sans-serif;
+       background-size:cover;
+      }
+     .header{
+       position:absolute;
+       top:30px;
+       left:760px;
+       width:1560px;
+       padding:10px;
+       transform:translate(-50%,-50%);
+       background: rgba(20,68,106,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+      .header h1{
+       text-align:center;
+       font-size:30px;
+       color:white;
+      }
+
+      .footer{
+       position:absolute;
+       top:680px;
+       left:760px;
+       width:1560px;
+       padding:10px;
+       transform:translate(-50%,-50%);
+       background: rgba(38,188,213,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+      .footer h1{
+       text-align:center;
+       font-size:16px;
+       color:white;
+      }
+
+      .selectbar{
+       position:relative;
+       top:365px;
+       left:105px;
+       width:227px;
+       height:565px;
+       transform:translate(-50%,-50%);
+       background: rgba(0,158,255,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+      }
+
+         .selectbar input{
+          background-color: #ff7f00;
+          position:absolute;
+          margin-top:5px;
+          margin-left:14px;
+          color: black;
+          padding: 8px 70px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          border-radius:5px;
+      }
+
+      .tableblock{
+       position:absolute;
+       top:365px;
+       left:880px;
+       width:1320px;
+       height:565px;
+       transform:translate(-50%,-50%);
+       background: rgba(35,235,185,.8);
+       box-sizing:border-box;
+       box-shadow: 0px 15px 25px rgba(0,0,0,.5);
+       text-align:center;
+       display:table;
+      }
+
+      .background {
+       display: block;
+       position: fixed;
+       right: 0;
+       bottom: 0;
+       width: auto;
+       height: auto;
+       min-width: 100%;
+       min-height: 100%;
+       z-index: -100;
+       background-image:url({% static 'images/background.jpg' %});
+       background-size: cover;
+      }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+    <div class="header">
+      <h1>
+          您好，欢迎使用企业数据管理系统
+      </h1>
+    </div>
+    <div class="footer">
+      <h1>
+          企业数据管理系统（员工登录）
+      </h1>
+    </div>
+    <div class="selectbar">
+        <input type="button" name="stu_info" value="个人信息" onclick="location.href='/pro/indexEmployee'"style="margin-top:5px"><br><br><br><br>
+        <input type="button" name="stu_info" value="任务绩效" onclick="location.href='/pro/indexECredit'"style="margin-top:-25px"><br><br><br><br>
+        <input type="button" name="stu_info" value="调css" onclick="location.href=''"style="margin-top:-55px"><br><br><br><br>
+        <input type="button" name="stu_info" value="绩效分布" onclick="location.href='/pro/indexSGPADIST'"style="margin-top:-85px"><br><br><br><br>
+        <input type="button" name="login_off" value="退出系统" onclick="location.href='/pro/logout'"style="margin-top:-115px"><br><br><br><br>
+    </div>
+    <div class="tableblock">
+        <table  id="stu_course" height="40px" width="1320px" border="5">
+            <tr>
+            <th>任务ID</th>
+            <th>绩效</th>
+            <th>经理ID</th>
+        </tr>
+        <tr>
+            {%for item in items%}
+            <tr>
+            <td>{{item.Task_id}}</td>
+            <td>{{item.Credit}}</td>
+            <td>{{item.Manager_id}}</td>
+            </tr>
+            {% endfor %}
+        </tr>
+        </table>
+    </div>
+    <div class="background">
+    </div>
+      {% if ifsetPage == True %}
+    <ul class="pagination">
+      <li>
+        {% if items.has_previous%}
+            <a href="?page={{items.previous_page_number}}">«</a>
+        {% endif %}
+      </li>
+      <li>
+        {% if leftLowerBound > 1 %}
+            <a href="?page=1">1</a>
+            <a>...</a>
+        {% endif %}
+        {% for i  in rangeLeft %}
+            <a href="?page={{ i }}">{{ i }}</a>
+        {% endfor %}
+        <a class="active" href="#">{{items.number}}</a>
+        {% for i in rangeRight %}
+            <a href='?page={{ i }}'>{{ i }}</a>
+        {% endfor %}
+        {% if rightUpperBound < items.paginator.num_pages %}
+            <a>...</a>
+            <a href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}</a>
+        {% endif %}
+      </li>
+      <li>
+        {% if items.has_next %}
+            <a href="?page={{items.next_page_number}}">»</a>
+        {% endif %}
+      </li>
+    </ul>    
+    {% endif %}
+</body>
+</html>
