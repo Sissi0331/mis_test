@@ -46,24 +46,24 @@ def indexMTask(request):#查询发布项目信息
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
 
-def indexTGrade(request):#查询所授课程学生成绩信息
-    print("查询学生的成绩")
+def indexMCredit(request):#查询所管辖项目员工绩效信息
+    print("查询员工绩效信息")
     page=request.GET.get('page',1)
-    if 'sessionid' in request.COOKIES and request.session['role'] == 'teacher':
-        teacher_id = request.session['id']
+    if 'sessionid' in request.COOKIES and request.session['role'] == 'manager':
+        Manager_id = request.session['id']
         connection.connect()
         cursor = connection.cursor()
-        cursor.execute("select take.student_id,student_name,take.course_id,course_name,credits,grade \
-                        from student natural join course natural join take natural join teach \
-                        where teacher_id ='%s' \
-                        order by take.student_id, take.course_id;" % (teacher_id))
+        cursor.execute("select tc.Task_id,tc.Employee_id,tc.Credit,tc.Start_time,tc.End_time,tc.End_time \
+                        from taskcredit As tc left join taskinfo\
+                        on taskinfo.Manager_id ='%s' \
+                        order by tc.Task_id, tc.Employee_id;" % (Manager_id))
         result = cursor.fetchall()
         connection.close()
         result_list = []
         for r in result:
-            result_list.append({"student_id":r[0],'student_name':r[1],'course_id':r[2],\
-                                'course_name':r[3],'credits':r[4],'grade':r[5]})
-        return render(request, 'teacher3.html',pageBuilder(result_list,page))
+            result_list.append({"Task_id":r[0],'Employee_id':r[1],'Credit':r[2],\
+                                'Start_time':r[3],'End_time':r[4],'End_time':r[5]})
+        return render(request, 'templates/manager3.html', pageBuilder(result_list, page))
     else:
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
@@ -131,7 +131,7 @@ def changeTGrade(request):#录入、删除、修改所授课程学生成绩信�
         for r in result:
             result_list.append({"student_id":r[0],'student_name':r[1],'course_id':r[2],\
                                 'course_name':r[3],'credits':r[4],'grade':r[5]})
-        return render(request, 'teacher3.html',pageBuilder(result_list,page))
+        return render(request, 'templates/manager3.html', pageBuilder(result_list, page))
 
     else:
         print("用户身份不合法")

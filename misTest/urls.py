@@ -16,5 +16,6 @@ urlpatterns = [
     path('employee/', employee.employee),
     path('manager/', manager.manager),
     path('indexMTask/', manager.indexMTask),
+    path('indexMCredit/', manager.indexMCredit),
     path('indexManager', manager.indexManager)
 ]

@@ -3,7 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>学生成绩</title>
+    <title>项目绩效</title>
      <style>
      ul.pagination {
         position:absolute;
@@ -237,39 +237,39 @@
 <body>
     <div class="header">
       <h1>
-          您好，欢迎使用学生成绩管理系统
+          您好，欢迎使用企业数据管理系统
       </h1>
     </div>
     <div class="footer">
       <h1>
-          学生成绩管理系统（教师登录）
+          企业数据管理系统（经理登录）
       </h1>
     </div>
     <div class="selectbar">
-        <input type="button" name="stu_info" value="个人信息" onclick="location.href='/pro/indexTeacher'"style="margin-top:5px"><br><br><br><br>
-        <input type="button" name="stu_course" value="所授课程" onclick="location.href='/pro/indexTCourse'"style="margin-top:-25px"><br><br><br><br>
-        <input type="button" name="stu_grade" value="学生成绩" onclick="location.href='/pro/indexTGrade'"style="margin-top:-55px"><br><br><br><br>
-        <input type="button" name="stu_grade" value="成绩分布" onclick="location.href='/pro/indexTDistSelect'"style="margin-top:-85px"><br><br><br><br>
+        <input type="button" name="stu_info" value="个人信息" onclick="location.href='/pro/indexManager'"style="margin-top:5px"><br><br><br><br>
+        <input type="button" name="stu_course" value="项目信息" onclick="location.href='/pro/indexMTask'"style="margin-top:-25px"><br><br><br><br>
+        <input type="button" name="stu_grade" value="员工绩效" onclick="location.href='/pro/indexMCredit'"style="margin-top:-55px"><br><br><br><br>
+        <input type="button" name="stu_grade" value="绩效分布" onclick="location.href='/pro/indexTDistSelect'"style="margin-top:-85px"><br><br><br><br>
         <input type="button" name="login_off" value="退出系统" onclick="location.href='/pro/logout'"style="margin-top:-115px"><br><br><br><br>
     </div>
     <div class="tableblock">
         <table height="50px" width="1027px" border="5">
         <tr>
-            <th>学生ID</th>
-            <th>学生姓名</th>
-            <th>课程ID</th>
-            <th>课程名</th>
-            <th>学分</th>
-            <th>成绩</th>
+            <th>项目ID</th>
+            <th>员工ID</th>
+            <th>项目绩效</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>结束时间</th>
         </tr>
             {%for item in items%}
             <tr>
-                <td>{{item.student_id}}</td>
-                <td>{{item.student_name}}</td>
-                <td>{{item.course_id}}</td>
-                <td>{{item.course_name}}</td>
-                <td>{{item.credits}}</td>
-                <td>{{item.grade}}</td>
+                <td>{{item.Task_id}}</td>
+                <td>{{item.Employee_id}}</td>
+                <td>{{item.Credit}}</td>
+                <td>{{item.Start_time}}</td>
+                <td>{{item.End_time}}</td>
+                <td>{{item.End_time}}</td>
             </tr>
             {% endfor %}
         </table>
