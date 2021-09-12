@@ -17,5 +17,6 @@ urlpatterns = [
     path('manager/', manager.manager),
     path('indexMTask/', manager.indexMTask),
     path('indexMCredit/', manager.indexMCredit),
-    path('indexManager', manager.indexManager)
+    path('changeCredit', manager.changeCredit),
+    path('indexManager/', manager.indexManager)
 ]
