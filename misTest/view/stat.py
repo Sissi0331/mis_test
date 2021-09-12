@@ -96,7 +96,7 @@ def indexSGPADIST(request):
 
 
 # 经理绩效分布的统计函数
-def indexTDistSelect(request):  # 获取下拉框
+def indexMDistSelect(request):  # 获取下拉框
     print("查询经理负责的任务")
     if 'sessionid' in request.COOKIES and request.session['role'] == 'manager':
         manager_id = request.session['id']
@@ -113,13 +113,13 @@ def indexTDistSelect(request):  # 获取下拉框
             result_list.append({"Task_id": r[0], 'Credit': r[1]})
         for i in range(0, len(result_list)):
             print("任务ID:%s" % (result_list[i]['Task_id']))
-        return render(request, 'teacher4-1.html', {"data": result_list})
+        return render(request, 'templates/manager4-1.html', {"data": result_list})
     else:
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
 
 
-def indexTDistShow(request):  # 获取下拉框和成绩统计分布的对应图片
+def indexMDistShow(request):  # 获取下拉框和成绩统计分布的对应图片
     print("查询经理管理的项目以及该项目所有员工的绩效分布")
     if 'sessionid' in request.COOKIES and request.session['role'] == 'manager':
         manager_id = request.session['id']
@@ -143,7 +143,7 @@ def indexTDistShow(request):  # 获取下拉框和成绩统计分布的对应图
             result_list.append({"task_id": r[0], 'credits': r[1]})
             # if r[0] == course_id:
             #     task_name = r[0]
-        # 查询该课程的学生成绩分布
+        # 查询该项目的员工绩效分布
         cursor.execute("select taskcredit.Credit,count(Credit) as counts\
                         from taskcredit\
                         where Task_id=%s\
@@ -199,14 +199,14 @@ def indexTDistShow(request):  # 获取下拉框和成绩统计分布的对应图
         plt.axis('equal')
         plt.savefig("static/manager_stat_img/pie_" + manager_id + '_' + task_id + ".jpg")  # 图片拿教师id+课程id作为标识
         plt.close()
-        #将教师所教的全部课程信息、该课程所有学生成绩分布的数据、图片所在路径包装成一个字典返回给前端
+        #将经理负责的全部任务信息、该任务所有员工绩效分布的数据、图片所在路径包装成一个字典返回给前端
         data = {}
         data["taskinfo"] = result_list
         data["creditinfo"] = grade_list
         data["bar"] = "manager_stat_img/bar_" + manager_id + '_' + task_id + ".jpg"
         data["pie"] = "manager_stat_img/pie_" + manager_id + '_' + task_id + ".jpg"
         data["task_name"] = task_id
-        return render(request, 'teacher4-2.html', data)
+        return render(request, 'templates/manager4-2.html', data)
     else:
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
