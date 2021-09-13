@@ -58,7 +58,7 @@ def indexAllEm(request):  # 查询所有员工信息
         return redirect('/pro/illegalUser/')
 
 
-def indexAllM(request):  # 查询所有教师信息
+def indexAllM(request):  # 查询所有经理信息
     print("查询所有教师信息")
     page = request.GET.get('page', 1)
     if 'sessionid' in request.COOKIES and request.session['role'] == 'admin':
@@ -96,7 +96,7 @@ def indexAllT(request):  # 查询所有项目信息
         return redirect('/pro/illegalUser/')
 
 
-def changeAllEm(request):  # 录入、删除、修改学生信息
+def changeAllEm(request):  # 录入、修改学生信息
     page = request.GET.get('page', 1)
     if 'sessionid' in request.COOKIES and request.session['role'] == 'admin':
         admin_id = request.session['id']
@@ -160,15 +160,6 @@ def changeAllEm(request):  # 录入、删除、修改学生信息
                 password = "%s", Employee_name = "%s", Manager_id = "%s",Employee_Age="%d"\
                 where Employee_id = "%s"' % (password, e_name, m_id, int(e_age),e_id))
 
-        elif operation == 'delete':  # 删除
-            error_count = 0
-            if len(student) == 0:
-                print("此学生ID不存在")
-                messages.error(request, "此学生ID不存在")
-                error_count += 1
-            elif error_count == 0:
-                cursor.execute('delete from student where student_id = "%s"' % (student_id))
-
         cursor.execute("select e.Employee_id,e.Employee_name,e.password,e.Employee_Age,e.Manager_id\
                         from employeeinfo as e\
                         order by Employee_id;")
@@ -230,15 +221,6 @@ def changeAllM(request):  # 录入、删除、修改教师信息
                 cursor.execute('update managerinfo set password = "%s", Manager_name = "%s", Manager_Age = "%d" \
                             where Manager_id = "%s"' % (password, m_name,  int(m_age),m_id))
 
-        elif operation == 'delete':  # 删除
-            error_count = 0
-            if len(teacher) == 0:
-                print("此经理ID不存在")
-                messages.error(request, "此经理ID不存在")
-                error_count += 1
-            elif error_count == 0:
-                cursor.execute('delete from teacher where teacher_id = "%s"' % (teacher_id))
-
         cursor.execute("select * from managerinfo order by Manager_id;")
         result = cursor.fetchall()
         connection.close()
@@ -272,7 +254,7 @@ def ifdigit(num):
         return False
 
 
-def changeAllT(request):  # 录入、删除、修改项目信息
+def changeAllT(request):  # 录入、修改项目信息
     page = request.GET.get('page', 1)
     if 'sessionid' in request.COOKIES and request.session['role'] == 'admin':
         connection.connect()
@@ -301,39 +283,28 @@ def changeAllT(request):  # 录入、删除、修改项目信息
                             ("%s", "%s", "%s","%s")' % (t_id, m_id, start,end))
 
         elif operation == 'update':  # 修改
-            course_name = request.POST.get('course_name')
-            credit = request.POST.get('credits')
+            m_id = request.POST.get('m_id')
+            start = request.POST.get('start')
+            end = request.POST.get('end')
             cursor.execute(
-                "select * from course where course_id = '%s' and course_name = '%s' " % (course_id, course_name))
-            class_course = cursor.fetchall()
+                "select Manager_id from taskinfo where Manager_id = '%s' " % (m_id))
+            m = cursor.fetchall()
 
             error_count = 0
-            if len(course) == 0:
+            if len(task) == 0:
                 print("此项目ID不存在")
                 messages.error(request, "此项目ID不存在")
                 error_count += 1
-            elif len(class_course) == 0 and error_count == 0:
-                print("此项目ID与项目名不对应")
-                messages.error(request, "此项目ID与项目名不对应")
+            elif (len(m) == 0):
+                messages.error(request, "此经理不存在")
                 error_count += 1
-            elif (ifdigit(credit) == False) or ((ifdigit(credit) == True) and (float(credit) < 0)):
-                print(float(credit))
-                print("您输入的绩效不是大于0的数字！")
-                messages.error(request, "您输入的绩效不是大于0的数字！")
+            elif (isdate(start) == False) or (isdate(end) == False):
+                messages.error(request, "您输入的不是日期")
                 error_count += 1
             elif error_count == 0:
-                credit = float(credit)
-                cursor.execute('update course set course_name = "%s", credits = "%f" where \
-                            course_id = "%s"' % (course_name, credit, course_id))
+                cursor.execute('update taskinfo set Start_time = "%s", End_time = "%s" where \
+                            Task_id = "%s" and Manager_id="%s"' % (start, end, t_id,m_id))
 
-        elif operation == 'delete':  # 删除
-            error_count = 0
-            if len(course) == 0:
-                print("此项目ID不存在")
-                messages.error(request, "此项目ID不存在")
-                error_count += 1
-            elif error_count == 0:
-                cursor.execute('delete from course where course_id = "%s"' % (course_id))
 
         cursor.execute("select * from taskinfo order by Task_id")
         result = cursor.fetchall()
