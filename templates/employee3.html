@@ -52,17 +52,18 @@
        width:227px;
        height:565px;
        transform:translate(-50%,-50%);
-       background: rgba(0,158,255,.8);
+       background: #B0E0E6;
        box-sizing:border-box;
        box-shadow: 0px 15px 25px rgba(0,0,0,.5);
       }
 
-      .selectbar input{
-          background-color: #ff7f00;
-          position:absolute;
+         .selectbar input{
+          background-color: #4682B4;
+          color:whitesmoke;
+          {#position:absolute;#}
           margin-top:5px;
           margin-left:14px;
-          color: black;
+          {#color: black;#}
           padding: 8px 70px;
           text-align: center;
           text-decoration: none;
@@ -78,7 +79,7 @@
        width:1320px;
        height:565px;
        transform:translate(-50%,-50%);
-       background: rgba(35,235,185,.8);
+       background-color: #4682B4;;
        box-sizing:border-box;
        box-shadow: 0px 15px 25px rgba(0,0,0,.5);
       }
@@ -136,7 +137,7 @@
 </head>
 <body>
     <div class="header">
-      <h1>
+      <h1 style="color: white">
           您好，欢迎使用企业数据管理系统
       </h1>
     </div>
@@ -148,8 +149,8 @@
     <div class="selectbar">
         <input type="button" name="stu_info" value="个人信息" onclick="location.href='/pro/indexEmployee'"style="margin-top:5px"><br><br><br><br>
         <input type="button" name="stu_info" value="任务绩效" onclick="location.href='/pro/indexECredit'"style="margin-top:-25px"><br><br><br><br>
-        <input type="button" name="stu_info" value="调css" onclick="location.href=''"style="margin-top:-55px"><br><br><br><br>
-        <input type="button" name="stu_info" value="绩效分布" onclick="location.href='/pro/indexSGPADIST'"style="margin-top:-85px"><br><br><br><br>
+{#        <input type="button" name="stu_info" value="调css" onclick="location.href=''"style="margin-top:-55px"><br><br><br><br>#}
+        <input type="button" name="stu_info" value="绩效分布" onclick="location.href='/pro/indexSGPADIST'"style="margin-top:-85px;background-color:lightskyblue"><br><br><br><br>
         <input type="button" name="login_off" value="退出系统" onclick="location.href='/pro/logout'"style="margin-top:-115px"><br><br><br><br>
     </div>
 
@@ -159,7 +160,7 @@
     </div>
     <div class="picblock2">
     </div>
-       <h2>
+       <h2 style="color: white">
           员工绩效分布情况——{{employee_name}}
       </h2>
     <div class="background">
