@@ -20,7 +20,8 @@ def indexEmployee(request):  # 查询员工个人信息
     if 'sessionid' in request.COOKIES and request.session['role'] == 'employee':
         connection.connect()
         cursor = connection.cursor()
-        cursor.execute("select employeeinfo.Employee_id,employeeinfo.Employee_name,employeeinfo.Employee_Age,managerinfo.Manager_name,employeeinfo.Manager_id\
+        cursor.execute("select employeeinfo.Employee_id,employeeinfo.Employee_name,employeeinfo.Employee_Age,"
+                       "managerinfo.Manager_name,employeeinfo.Manager_id\
                         from employeeinfo\
                         inner join managerinfo on employeeinfo.Manager_id = managerinfo.Manager_id\
                         where employeeinfo.Employee_id=%s;", [request.session['id']])  # 根据具体员工id查询员工数据“
