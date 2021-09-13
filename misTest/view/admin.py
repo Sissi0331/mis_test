@@ -96,7 +96,7 @@ def indexAllT(request):  # 查询所有项目信息
         return redirect('/pro/illegalUser/')
 
 
-def changeAllEm(request):  # 录入、修改学生信息
+def changeAllEm(request):  # 录入、修改员工信息
     page = request.GET.get('page', 1)
     if 'sessionid' in request.COOKIES and request.session['role'] == 'admin':
         admin_id = request.session['id']
