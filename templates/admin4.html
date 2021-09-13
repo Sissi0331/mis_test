@@ -271,26 +271,30 @@
     </div>
      <div class="mainblock">
          <h2>请选择功能并给定数据</h2>
-         <form name="my_form" action="/pro/changeAllCourse" method="post">
+         <form name="my_form" action="/pro/changeAllT" method="post">
              {% csrf_token %}
              <div class="selectbox">
                <select name="my_select">
-                   <option value = "add">录入课程信息</option>
-                   <option value = "delete">删除课程信息</option>
-                   <option value = "update">修改课程信息</option>
+                   <option value = "add">录入项目信息</option>
+                   <option value = "delete">删除项目信息</option>
+                   <option value = "update">修改项目信息</option>
                </select>
              </div>
              <div class="inputbox">
-                 <input type="text" name="course_id" required="" >
-                 <label>课程ID</label>
+                 <input type="text" name="t_id" required="" >
+                 <label>项目ID</label>
              </div>
              <div class="inputbox">
-                 <input type="text" name="course_name">
-                 <label>课程名</label>
+                 <input type="text" name="m_id">
+                 <label>经理ID</label>
              </div>
              <div class="inputbox">
-                 <input type="text" name="credits">
-                 <label>学分</label>
+                 <input type="text" name="start">
+                 <label>开始时间</label>
+             </div>
+             <div class="inputbox">
+                 <input type="text" name="end">
+                 <label>结束时间</label>
              </div>
              <div class="submit">
                <input type="submit" name="execute" value="确定" >

@@ -192,57 +192,74 @@ def changeAllM(request):  # 录入、删除、修改教师信息
         connection.connect()
         cursor = connection.cursor()
         operation = request.POST.get('my_select')
-        teacher_id = request.POST.get('teacher_id')
-        cursor.execute("select * from teacher where teacher_id = '%s' " % (teacher_id))
-        teacher = cursor.fetchall()
+        m_id = request.POST.get('m_id')
+        cursor.execute("select * from managerinfo where Manager_id = '%s' " % (m_id))
+        manager = cursor.fetchall()
 
         if operation == 'add':  # 录入
             password = request.POST.get('password')
-            teacher_name = request.POST.get('teacher_name')
-            dept = request.POST.get('dept')
+            m_name = request.POST.get('name')
+            m_age = request.POST.get('age')
 
             error_count = 0
-            if len(teacher) != 0:
-                print("此教师ID已经存在")
-                messages.error(request, "此教师ID已经存在")
+            if len(manager) != 0:
+                print("此经理ID已经存在")
+                messages.error(request, "此经理ID已经存在")
                 error_count += 1
             elif error_count == 0:
-                cursor.execute('insert into teacher values \
-                            ("%s", md5("%s"), "%s", "%s")' % (teacher_id, password, teacher_name, dept))
+                if (m_age != ''):
+                    cursor.execute('insert into managerinfo values \
+                                                ("%s", "%s", "%s","%d")' % (
+                    m_id, m_name, password, int(m_age)))
+                else:
+                    cursor.execute('insert into managerinfo values \
+                                                ("%s", "%s", "%s",null)' % (
+                    m_id, m_name, password))
 
         elif operation == 'update':  # 修改
             password = request.POST.get('password')
-            teacher_name = request.POST.get('teacher_name')
-            dept = request.POST.get('dept')
+            m_name = request.POST.get('name')
+            m_age = request.POST.get('age')
 
             error_count = 0
-            if len(teacher) == 0:
-                print("此教师ID不存在")
-                messages.error(request, "此教师ID不存在")
+            if len(manager) == 0:
+                print("此经理ID不存在")
+                messages.error(request, "此经理ID不存在")
                 error_count += 1
             elif error_count == 0:
-                cursor.execute('update teacher set password = md5("%s"), teacher_name = "%s", dept = "%s" \
-                            where teacher_id = "%s"' % (password, teacher_name, dept, teacher_id))
+                cursor.execute('update managerinfo set password = "%s", Manager_name = "%s", Manager_Age = "%d" \
+                            where Manager_id = "%s"' % (password, m_name,  int(m_age),m_id))
 
         elif operation == 'delete':  # 删除
             error_count = 0
             if len(teacher) == 0:
-                print("此教师ID不存在")
-                messages.error(request, "此教师ID不存在")
+                print("此经理ID不存在")
+                messages.error(request, "此经理ID不存在")
                 error_count += 1
             elif error_count == 0:
                 cursor.execute('delete from teacher where teacher_id = "%s"' % (teacher_id))
 
-        cursor.execute("select * from teacher order by teacher_id;")
+        cursor.execute("select * from managerinfo order by Manager_id;")
         result = cursor.fetchall()
         connection.close()
         result_list = []
         for r in result:
-            result_list.append({"teacher_id": r[0], "password": r[1], 'teacher_name': r[2], 'dept': r[3]})
+            result_list.append({"Manager_id": r[0], 'Manager_name': r[1],"password": r[2], 'Manager_Age': r[3]})
         return render(request, 'admin3.html', pageBuilder(result_list, page))
     else:
         print("用户身份不合法")
         return redirect('/pro/illegalUser/')
+
+def isdate(str_date):
+    import time
+    '''判断是否是一个有效的日期字符串'''
+    try:
+        time.strptime(str_date, "%Y-%m-%d")
+        return True
+    except Exception:
+        # traceback.print_exc()
+        raise Exception("时间参数错误 near : {}".format(str_date))
+        return False
 
 
 def ifdigit(num):
@@ -255,34 +272,33 @@ def ifdigit(num):
         return False
 
 
-def changeAllT(request):  # 录入、删除、修改课程信息
+def changeAllT(request):  # 录入、删除、修改项目信息
     page = request.GET.get('page', 1)
     if 'sessionid' in request.COOKIES and request.session['role'] == 'admin':
-        teacher_id = request.session['id']
         connection.connect()
         cursor = connection.cursor()
         operation = request.POST.get('my_select')
-        course_id = request.POST.get('course_id')
+        t_id = request.POST.get('t_id')
 
-        cursor.execute("select * from course where course_id = '%s' " % (course_id))
-        course = cursor.fetchall()
+        cursor.execute("select * from taskinfo where Task_id = '%s' " % (t_id))
+        task = cursor.fetchall()
+        import datetime
 
         if operation == 'add':  # 录入
-            course_name = request.POST.get('course_name')
-            credit = request.POST.get('credits')
+            m_id = request.POST.get('m_id')
+            start=request.POST.get('start')
+            end=request.POST.get('end')
             error_count = 0
-            if len(course) != 0:
-                print("此课程ID已经存在")
-                messages.error(request, "此课程ID已经存在")
+            if len(task) != 0:
+                print("此项目ID已经存在")
+                messages.error(request, "此项目ID已经存在")
                 error_count += 1
-            elif (ifdigit(credit) == False) or ((ifdigit(credit) == True) and (float(credit) < 0)):
-                print("您输入的学分不是大于0的数字！")
-                messages.error(request, "您输入的学分不是大于0的数字！")
+            elif(isdate(start)==False) or (isdate(end)==False):
+                messages.error(request, "您输入的不是日期")
                 error_count += 1
             elif error_count == 0:
-                credit = float(credit)
-                cursor.execute('insert into course values \
-                            ("%s", "%s", "%f")' % (course_id, course_name, credit))
+                cursor.execute('insert into taskinfo values \
+                            ("%s", "%s", "%s","%s")' % (t_id, m_id, start,end))
 
         elif operation == 'update':  # 修改
             course_name = request.POST.get('course_name')
@@ -293,17 +309,17 @@ def changeAllT(request):  # 录入、删除、修改课程信息
 
             error_count = 0
             if len(course) == 0:
-                print("此课程ID不存在")
-                messages.error(request, "此课程ID不存在")
+                print("此项目ID不存在")
+                messages.error(request, "此项目ID不存在")
                 error_count += 1
             elif len(class_course) == 0 and error_count == 0:
-                print("此课程ID与课程名不对应")
-                messages.error(request, "此课程ID与课程名不对应")
+                print("此项目ID与项目名不对应")
+                messages.error(request, "此项目ID与项目名不对应")
                 error_count += 1
             elif (ifdigit(credit) == False) or ((ifdigit(credit) == True) and (float(credit) < 0)):
                 print(float(credit))
-                print("您输入的学分不是大于0的数字！")
-                messages.error(request, "您输入的学分不是大于0的数字！")
+                print("您输入的绩效不是大于0的数字！")
+                messages.error(request, "您输入的绩效不是大于0的数字！")
                 error_count += 1
             elif error_count == 0:
                 credit = float(credit)
@@ -313,18 +329,18 @@ def changeAllT(request):  # 录入、删除、修改课程信息
         elif operation == 'delete':  # 删除
             error_count = 0
             if len(course) == 0:
-                print("此课程ID不存在")
-                messages.error(request, "此课程ID不存在")
+                print("此项目ID不存在")
+                messages.error(request, "此项目ID不存在")
                 error_count += 1
             elif error_count == 0:
                 cursor.execute('delete from course where course_id = "%s"' % (course_id))
 
-        cursor.execute("select * from course order by course_id;")
+        cursor.execute("select * from taskinfo order by Task_id")
         result = cursor.fetchall()
         connection.close()
         result_list = []
         for r in result:
-            result_list.append({"course_id": r[0], 'course_name': r[1], 'credits': r[2]})
+            result_list.append({"Task_id": r[0], 'Manager_id': r[1], 'Start_time': r[2],'End_time':r[3]})
         return render(request, 'admin4.html', pageBuilder(result_list, page))
     else:
         print("用户身份不合法")
